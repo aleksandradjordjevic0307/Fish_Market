@@ -9,6 +9,6 @@ package model;
  * @author Aleksandra
  */
 public enum FishSort {
-    SALMON, TUNA, MACKEREL;
+    Salmon, Tuna, Cod, Trout ;
     
 }

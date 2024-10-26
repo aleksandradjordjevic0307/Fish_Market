@@ -11,15 +11,14 @@ import model.Fish;
  *
  * @author Aleksandra
  */
-public class TableModel extends AbstractTableModel {
+public class ModelOfTable extends AbstractTableModel {
 
    //redovi
-    private List<Fish> fishList;
-    
+    private List<Fish> fishList; 
     //kolone
-    private String[] columns  = {"Sorf of fish", "Catch region", "Caught by", "Days since catch", "Weight(kg)", "Price per kg($)"};
+    private String[] columns  = {"Id", "Sorf of fish", "Catch region", "Caught by", "Days since catch", "Weight(kg)", "Price per kg($)"};
 
-    public TableModel(List<Fish> fishList) {
+    public ModelOfTable(List<Fish> fishList) {
         this.fishList = fishList;
     }
     
@@ -39,16 +38,18 @@ public class TableModel extends AbstractTableModel {
         switch(columnIndex){
 
             case 0:
+                return f.getId();
+            case 1:
                 return f.getSortOfFish();
-            case 1: 
+            case 2: 
                 return f.getCatchRegion();
-            case 2:
-                return f.getCaughtBy();
             case 3:
+                return f.getCaughtBy();
+            case 4:
                 return f.getDaysSinceCatch();
-            case 4: 
-                return f.getWeight();
             case 5: 
+                return f.getWeight();
+            case 6: 
                 return f.getPricePerKg();
             default:
                 return null;     
@@ -60,12 +61,15 @@ public class TableModel extends AbstractTableModel {
         return columns[column];
     }
 
-    void refreshData() {
-       fireTableDataChanged();
+    public List<Fish> getFishList() {
+        return fishList;
     }
+
+ 
     
-    
-    
-    
+ 
     
 }
+
+    
+  

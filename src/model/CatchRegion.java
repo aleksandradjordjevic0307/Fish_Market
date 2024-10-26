@@ -9,5 +9,5 @@ package model;
  * @author Aleksandra
  */
 public enum CatchRegion {
-    NORTH_ATLANTIC, PACIFIC_OCEAN, MEDITERRANEAN_SEA, INDIAN_OCEAN;
+    PACIFIC_OCEAN, COLORADO_RIVER, ATLANTIC_OCEAN, NORTH_SEA;
 }

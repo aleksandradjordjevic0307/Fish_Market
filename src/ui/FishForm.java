@@ -18,9 +18,10 @@ import model.Fisherman;
  * @author Aleksandra
  */
 public class FishForm extends javax.swing.JDialog {
-    private Controller kontroler;
+    
     private MainForm mf;
     private Fish fishForChange;
+    private Controller con;
     
     /**
      * Creates new form FishForm
@@ -30,7 +31,7 @@ public class FishForm extends javax.swing.JDialog {
     public FishForm(java.awt.Frame parent, boolean modal, Fish f) {
         super(parent, modal);
         initComponents();
-        kontroler = Controller.getInstance();
+        con = Controller.getInstance();
         this.mf = (MainForm) parent;
         fillComboBoxCaughtBy();
 
@@ -210,8 +211,9 @@ public class FishForm extends javax.swing.JDialog {
         Fisherman fisherman  = (Fisherman) jComboBoxCaughtBy.getSelectedItem();
         CatchRegion catchRegion = (CatchRegion) jComboBoxCatchRegion.getSelectedItem();
         
+        
         Fish f = new Fish(sort, weight, pricePerKg, daysSinceCatch, fisherman, catchRegion);
-        kontroler.addFish(f);
+        Controller.getInstance().addFishToDatabase(f);
         
         JOptionPane.showMessageDialog(this, "Successfully added fish!", "Notification", JOptionPane.INFORMATION_MESSAGE);
         
@@ -229,7 +231,7 @@ public class FishForm extends javax.swing.JDialog {
         int dsc = Integer.parseInt(jTextFieldDaysSinceCatch.getText());
         Fisherman f = (Fisherman) jComboBoxCaughtBy.getSelectedItem();
         CatchRegion cr = (CatchRegion) jComboBoxCatchRegion.getSelectedItem();
-       
+      
         fishForChange.setCatchRegion(cr);
         fishForChange.setCaughtBy(f);
         fishForChange.setDaysSinceCatch(dsc);
@@ -237,9 +239,14 @@ public class FishForm extends javax.swing.JDialog {
         fishForChange.setSortOfFish(sort);
         fishForChange.setWeight(w);
         
-        mf.refreshTable();
+        
+        con.changeFishInDatabase(fishForChange);
+        
+        
         JOptionPane.showMessageDialog(this, "Successfully changed row!", "Notification!", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
+        
+        mf.refreshTable();
     }//GEN-LAST:event_jButtonChangeActionPerformed
 
     private void jComboBoxCaughtByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCaughtByActionPerformed
@@ -267,7 +274,7 @@ public class FishForm extends javax.swing.JDialog {
 
     private void fillComboBoxCaughtBy() {
          jComboBoxCaughtBy.removeAllItems();
-        List<Fisherman>  fishermenList = controller.Controller.getInstance().getFishermen();
+        List<Fisherman>  fishermenList = controller.Controller.getInstance().getFishermenFromDatabase();
         for(Fisherman f : fishermenList){
             jComboBoxCaughtBy.addItem(f);
         }

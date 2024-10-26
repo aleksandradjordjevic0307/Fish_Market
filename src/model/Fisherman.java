@@ -11,6 +11,8 @@ import java.util.Objects;
  * @author Aleksandra
  */
 public class Fisherman {
+    
+    private int id;
     private String name;
     private String surname;
     private int yearsOfExperience;
@@ -22,8 +24,15 @@ public class Fisherman {
         this.yearsOfExperience = yearsOfExperience;
         this.description = description;
     }
-    
 
+    public Fisherman(int id, String name, String surname, int yearsOfExperience, String description) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.yearsOfExperience = yearsOfExperience;
+        this.description = description;
+    }
+  
     public String getName() {
         return name;
     }
@@ -87,6 +96,14 @@ public class Fisherman {
     @Override
     public String toString() {
         return name + " " + surname;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

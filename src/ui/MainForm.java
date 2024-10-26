@@ -4,7 +4,8 @@
  */
 package ui;
 
-import java.awt.Frame;
+
+import controller.Controller;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -24,10 +25,12 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm(java.awt.Frame parent, boolean modal) {
       
-        initComponents();
-        controller.Controller.getInstance();
-       TableModel t = new TableModel(controller.Controller.getInstance().getFishList());
+       initComponents();
+       Controller con =  Controller.getInstance();
+       
+       ModelOfTable t = new ModelOfTable(con.getFishFromDatabase());
        jTableFish.setModel(t);
+
        fillFishermanCombo();
     }
 
@@ -221,10 +224,14 @@ public class MainForm extends javax.swing.JFrame {
         if(index == -1){
             JOptionPane.showMessageDialog(this, "You should select a row!", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else{
-            controller.Controller.getInstance().deleteRow(index);
-            refreshTable();
+            ModelOfTable t = (ModelOfTable) jTableFish.getModel();
+            int fishId = t.getFishList().get(index).getId();
+            controller.Controller.getInstance().deleteRowFromDatabase(fishId);
             JOptionPane.showMessageDialog(this, "Successfully deleted", "Notification", JOptionPane.INFORMATION_MESSAGE);
+        
+             refreshTable();
         }
+        
         
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
@@ -233,6 +240,8 @@ public class MainForm extends javax.swing.JFrame {
         FishForm f;
         f = new FishForm(this, true, null);
         f.setVisible(true);
+        
+        
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangeActionPerformed
@@ -241,11 +250,10 @@ public class MainForm extends javax.swing.JFrame {
         if(i==-1){
             JOptionPane.showMessageDialog(this, "You have to select the row!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        Fish f = controller.Controller.getInstance().getFishList().get(i);
+        Fish f = controller.Controller.getInstance().getFishFromDatabase().get(i);
         FishForm form = new FishForm(this, true, f);
         form.setVisible(true);
-        
-        
+
     }//GEN-LAST:event_jButtonChangeActionPerformed
 
     private void jComboBoxFishermanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxFishermanActionPerformed
@@ -316,13 +324,14 @@ public class MainForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void refreshTable() {
-         TableModel t = (TableModel)jTableFish.getModel();
-         t.refreshData();
-    }
+    ModelOfTable t = new ModelOfTable(Controller.getInstance().getFishFromDatabase());
+    jTableFish.setModel(t);
+}
+
 
     private void fillFishermanCombo() {
         jComboBoxFisherman.removeAllItems();
-        List<Fisherman> fishermen = controller.Controller.getInstance().getFishermen();
+        List<Fisherman> fishermen = controller.Controller.getInstance().getFishermenFromDatabase();
         for(Fisherman f : fishermen){
             jComboBoxFisherman.addItem(f);
         }

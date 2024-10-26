@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class Fish {
     
-
+    private int id;
     private FishSort sortOfFish;
     private double weight;
     private double pricePerKg;
@@ -29,11 +29,19 @@ public class Fish {
         this.caughtBy = caughtBy;
         this.catchRegion = catchRegion;
     }
+
+    public Fish(int id, FishSort sortOfFish, double weight, double pricePerKg, int daysSinceCatch, Fisherman caughtBy, CatchRegion catchRegion) {
+        this.id = id;
+        this.sortOfFish = sortOfFish;
+        this.weight = weight;
+        this.pricePerKg = pricePerKg;
+        this.daysSinceCatch = daysSinceCatch;
+        this.caughtBy = caughtBy;
+        this.catchRegion = catchRegion;
+    }
     
     
-
-
-
+    
     public FishSort getSortOfFish() {
         return sortOfFish;
     }
@@ -130,7 +138,14 @@ public class Fish {
         }
         return this.catchRegion == other.catchRegion;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
     
     

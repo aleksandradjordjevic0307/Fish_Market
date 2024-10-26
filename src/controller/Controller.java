@@ -4,11 +4,11 @@
  */
 package controller;
 
+
+import dataBase.DBBroker;
 import java.util.ArrayList;
 import java.util.List;
-import model.CatchRegion;
 import model.Fish;
-import model.FishSort;
 import model.Fisherman;
 
 /**
@@ -16,11 +16,11 @@ import model.Fisherman;
  * @author Aleksandra
  */
 public class Controller {
-
    
     private List<Fish> fishList = new ArrayList<>();
     private List<Fisherman> fishermen = new ArrayList<>();
     private static Controller instance;
+    private DBBroker broker;
     
     public static Controller getInstance(){
         if(instance==null){
@@ -31,7 +31,9 @@ public class Controller {
 
     private Controller() {
         
-        Fisherman f1 = new Fisherman("John", "Smit", 10, "Expert in deep-sea fishing, primarily in the North Atlantic.");
+        broker = new DBBroker();
+        
+        /*Fisherman f1 = new Fisherman("John", "Smit", 10, "Expert in deep-sea fishing, primarily in the North Atlantic.");
         Fisherman f2 = new Fisherman("Carlos", "Martinez",15, "Specialized in tropical fish, fishing across the Pacific and Indian Oceans.");
         Fisherman f3 = new Fisherman("Maria", "Rossi", 8, "Focused on sustainable fishing practices in the Mediterranean region.");
         
@@ -49,7 +51,7 @@ public class Controller {
         fishList.add(fish2);
         fishList.add(fish3);
         fishList.add(fish4);
-        fishList.add(fish5);
+        fishList.add(fish5);*/
     }
 
     public List<Fish> getFishList() {
@@ -68,13 +70,27 @@ public class Controller {
         this.fishermen = fishermen;
     }
 
-    public void deleteRow(int index) {
-       fishList.remove(index);
+    public List<Fish> getFishFromDatabase() {
+        return broker.getFishFromDataBase();  
     }
 
-     public  void addFish(Fish fish) {
-       fishList.add(fish);
+    public void deleteRowFromDatabase(int fishId) {
+        broker.deleteRowFromDatabase(fishId);
     }
+
+    public void addFishToDatabase(Fish f) {
+       broker.addFishToDatabase(f);
+    }
+
+    public List<Fisherman> getFishermenFromDatabase() {
+        return broker.getFishermenFromDatabase();
+    }
+
+    public void changeFishInDatabase(Fish fishForChange) {
+        broker.changeFishInDatabase(fishForChange);
+    }
+
+   
     
     
     
